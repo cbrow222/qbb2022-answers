@@ -105,13 +105,13 @@ def parse_vcf(fname): #define function
                 fields[7] = info #put the dictionary back into the file you will save
                 
                 #dealing with lines past 8
-                if len(fields) > 8: #if you have more fields
+                if len(fields) > 8: #if you have more fields, if you have genotyping data
                     fields[8] = fields[8].split(":") #split them on :
                     if len(fields[8]) > 1: #if they have multiple parts
                         for i in range(9, len(fields)): #loop through all the parts
                             fields[i] = fields[i].split(':') #split all the parts apart
                     else: #if there is only one part
-                        fields[8] = fields[8][0] #make that the fist place in that field
+                        fields[8] = fields[8][0] #make that element back into a str
                 vcf.append(fields) #add the fields to the vcf you are storing
            
             except: #if something goes wrong
