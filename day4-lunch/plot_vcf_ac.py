@@ -18,8 +18,8 @@ vcf_name=sys.argv[1].split(".")
 plot_name=f"{vcf_name[0]} SNP AC Values"
 fig, ax = plt.subplots()
 ax.hist( ac, density=True )
-ax.set_xlabel("Allele Count")
-ax.set_ylabel("Number of SNPs")
+ax.set_xlabel("Allele Count") #allele frequecy
+ax.set_ylabel("Number of SNPs") #density
 ax.set_title(plot_name)
 plt.yscale('log')
 plt.ylim([10**(-6),2*10**(-3)])

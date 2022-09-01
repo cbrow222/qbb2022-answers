@@ -9,6 +9,9 @@ Exercise 1:
     + Covering 13780687 bp
 
 Open both the plot that was created and the plot from the cache/ directory and then look at the two plots to compare.
+cmp -b w/ both files compares two files
+diff also compares 2 files
+md5sum makes a 20 character string
 
 Gene_type
 1. miRNA-MicroRNAs are not protein coding but they are very important for controling gene expression which makes them interesting
