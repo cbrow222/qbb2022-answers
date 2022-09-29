@@ -11,7 +11,7 @@ Part 3b:
 samtools index -b aln_A01_63.bam aln_A01_63.bam.bai
 
 Part 4:
-freebayes -f sacCer3.fa -v var.vcf aln_A01_09.bam aln_A01_11.bam aln_A01_23.bam aln_A01_24.bam aln_A01_27.bam aln_A01_31.bam aln_A01_35.bam aln_A01_39.bam aln_A01_62.bam aln_A01_63.bam
+freebayes -f sacCer3.fa --genotype-qualities -v var.vcf aln_A01_09.bam aln_A01_11.bam aln_A01_23.bam aln_A01_24.bam aln_A01_27.bam aln_A01_31.bam aln_A01_35.bam aln_A01_39.bam aln_A01_62.bam aln_A01_63.bam
 
 Part 5:
 vcffilter -f "QUAL > 20" var.vcf >results.vcf

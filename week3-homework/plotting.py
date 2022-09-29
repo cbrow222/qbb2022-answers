@@ -15,8 +15,8 @@ for line in vcf:
     line=line.split()
     for i in range(9,19):
         line[i]=line[i].split(":")
-        read_depth.append(line[i][1])
-    quality.append(line[5])
+        read_depth.append(line[i][2])
+        quality.append(line[i][1])
     line[7]=line[7].split(";")
     for entry in line[7]:
         tag=entry.split("=")[0]
@@ -27,7 +27,7 @@ for line in vcf:
                 allele_frequency.append(float(entry.split("=")[1].split(",")[0]))
         elif tag=="ANN":
             predicted_effect.append(entry.split("=")[1].split("|")[2])
-
+        
 uniq_effect,effect_counts=np.unique(predicted_effect, return_counts=True)
 
 fig,ax = plt.subplots(nrows=2, ncols=2)
@@ -38,10 +38,10 @@ ax[0,0].set_xlim(0,40)
 ax[0,0].set_xticks([0,5,10,15,20,25,30,35,40])
 ax[0,0].set_xticklabels([0,5,10,15,20,25,30,35,40])
 ax[0,1].hist(quality)
-ax[0,1].set_xlabel("Quality (Phred-scaled)(*10^3)")
+ax[0,1].set_xlabel("Quality (Phred-scaled)(*10^4)")
 ax[0,1].set_ylabel("No. of Variants")
-ax[0,1].set_xticks([0,4000,8000,12000,16000,20000,24000,28000,32000,36000,40000])
-ax[0,1].set_xticklabels([0,4,8,12,16,20,24,28,32,36,40])
+ax[0,1].set_xticks([0,20000,40000,60000,80000,100000,120000,140000,160000,180000,200000,220000,240000])
+ax[0,1].set_xticklabels([0,2,4,6,8,10,12,14,16,18,20,22,24])
 ax[1,0].hist(allele_frequency)
 ax[1,0].set_xlabel("Allele Frequency")
 ax[1,0].set_ylabel("No. of Variants")
