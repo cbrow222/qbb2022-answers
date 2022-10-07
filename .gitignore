@@ -118,3 +118,5 @@
 *.sam
 *.seq
 *.vcf
+GS451_IC50.txt
+CB1908_IC50.txt
