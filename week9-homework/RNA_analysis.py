@@ -24,25 +24,25 @@ row_names_kept=row_names[roi]
 fpkm_transform=np.log2(fpkm+0.1)
 fpkm_transform_transpose=fpkm_transform.T
 
-# linkage_col=scipy.cluster.hierarchy.linkage(fpkm_transform, method="ward")
-# leaves_col=scipy.cluster.hierarchy.leaves_list(linkage_col)
-# linkage_row=scipy.cluster.hierarchy.linkage(fpkm_transform_transpose, method="ward")
-# leaves_row=scipy.cluster.hierarchy.leaves_list(linkage_row)
-#
-# row_sorted=fpkm_transform[:,leaves_row]
-# full_sorted=fpkm_transform[leaves_col,:]
-# fig, ax = plt.subplots()
-# ax.imshow(full_sorted, aspect='auto')
-# ax.set_xlabel("Samples")
-# ax.set_ylabel("Genes")
-# plt.savefig("heatmap.png")
-# plt.close(fig)
-#
-# fig= plt.figure(figsize=(25, 10))
-# dn=scipy.cluster.hierarchy.dendrogram(linkage_row)
-# fig.suptitle("Sample Relatedness")
-# plt.savefig("dendrogram.png")
-# plt.close(fig)
+linkage_col=scipy.cluster.hierarchy.linkage(fpkm_transform, method="ward")
+leaves_col=scipy.cluster.hierarchy.leaves_list(linkage_col)
+linkage_row=scipy.cluster.hierarchy.linkage(fpkm_transform_transpose, method="ward")
+leaves_row=scipy.cluster.hierarchy.leaves_list(linkage_row)
+
+row_sorted=fpkm_transform[:,leaves_row]
+full_sorted=row_sorted[leaves_col,:]
+fig, ax = plt.subplots()
+ax.imshow(full_sorted,interpolation="nearest", aspect='auto')
+ax.set_xlabel("Samples")
+ax.set_ylabel("Genes")
+plt.savefig("heatmap.png")
+plt.close(fig)
+
+fig= plt.figure(figsize=(25, 10))
+dn=scipy.cluster.hierarchy.dendrogram(linkage_row)
+fig.suptitle("Sample Relatedness")
+plt.savefig("dendrogram.png")
+plt.close(fig)
 
 sexes=[]
 stages=[]
@@ -51,7 +51,7 @@ for l in col_names[1:]:
     stages.append(l.split('_')[1])
 
 betas=[]
-pvalues=[]    
+pvalues=[]
 for i in range(fpkm_transform.shape[0]):
     list_of_tuples=[]
     for j in range(len(col_names)-1):
@@ -60,7 +60,7 @@ for i in range(fpkm_transform.shape[0]):
     model=smf.ols(formula="fpkm ~ stage", data=longdf).fit()
     pvalues.append(model.pvalues["stage"])
     betas.append(model.params["stage"])
-    
+
 fig,ax = plt.subplots()
 sm.qqplot(np.array(pvalues), dist=scipy.stats.uniform, line='45')
 plt.tight_layout()
@@ -72,7 +72,7 @@ significant=row_names_kept[multitest[0]]
 print(significant)
 
 betas2=[]
-pvalues2=[]    
+pvalues2=[]
 for i in range(fpkm_transform.shape[0]):
     list_of_tuples=[]
     for j in range(len(col_names)-1):
@@ -101,7 +101,7 @@ for i,pval in enumerate(pvalues2):
     else:
         pvalnotsig.append(-np.log10(pval))
         betanotsig.append(betas2[i])
-        
+
 fig,ax=plt.subplots()
 ax.scatter(betasig, pvalsig)
 ax.scatter(betanotsig, pvalnotsig)
